@@ -7,9 +7,9 @@
 namespace xiaxr {
 namespace {
 static bool                time_initialized = false;
-constexpr std::string_view ntp_server_1[]{"time1.google.com"};
-constexpr std::string_view ntp_server_2[]{"time2.google.com"};
-constexpr std::string_view ntp_server_3[]{"time3.google.com"};
+constexpr std::string_view ntp_server_1{"time1.google.com"};
+constexpr std::string_view ntp_server_2{"time2.google.com"};
+constexpr std::string_view ntp_server_3{"time3.google.com"};
 }  // namespace
 
 namespace detail {
@@ -40,7 +40,8 @@ auto datetime_t::to_string() const -> const std::string {
 }
 
 auto datetime_t::initialize() -> bool {
-  return initialize(ntp_server_1, ntp_server_2, ntp_server_3);
+  return initialize(ntp_server_1.data(), ntp_server_2.data(),
+                    ntp_server_3.data());
 }
 
 auto datetime_t::initialize(const std::string &server_1,
