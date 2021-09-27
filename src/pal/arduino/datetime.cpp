@@ -25,6 +25,7 @@ auto initialize_datetime(const std::string &server_1,
     delay(NTP_CONNECTION_DELAY);
     _now = time(nullptr);
   }
+  return true;
 }
 
 auto utc_now() -> datetime_t {

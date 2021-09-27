@@ -48,7 +48,7 @@ auto datetime_t::initialize(const std::string &server_1,
                             const std::string &server_2,
                             const std::string &server_3) -> bool {
   if (time_initialized) {
-    return;
+    return true;
   }
 
   return detail::initialize_datetime(server_1, server_2, server_3);
