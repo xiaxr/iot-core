@@ -5,7 +5,7 @@
     "type": "git",
     "url": "https://github.com/xiaxr/iot-core.git"
   },
-  "build": { "flags": "-std=gnu++2a" },
+  "build": { "flags": "-std=gnu++2a -DARDUINO_PLATFORM" },
   "frameworks": "*",
   "platforms": "*"
 }
