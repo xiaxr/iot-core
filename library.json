@@ -1,11 +1,11 @@
 {
-    "name": "Xiaxr ESP8266 Core",
-    "version": "0.0.1",
-    "repository": {
-      "type": "git",
-      "url": "https://github.com/xiaxr/iot-core.git"
-    },
-    "frameworks": "*",
-    "platforms": "*"
-  }
-  
+  "name": "Xiaxr ESP8266 Core",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xiaxr/iot-core.git"
+  },
+  "build": { "flags": "-std=gnu++2a" },
+  "frameworks": "*",
+  "platforms": "*"
+}
