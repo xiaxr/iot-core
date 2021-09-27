@@ -63,6 +63,3 @@ auto datetime_t::now() -> datetime_t {
 }
 
 }  // namespace xiaxr
-
-#undef NTP_CONNECTION_TIMEOUT
-#undef NTP_CONNECTION_DELAY
