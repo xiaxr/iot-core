@@ -50,7 +50,7 @@ struct default_log_formatter_t : log_formatter_t<default_log_formatter_t> {
   }
 };
 
-template <typename F, typename O>
+template <typename O>
 struct log_output_t {
   log_output_t() {}
 
@@ -59,9 +59,9 @@ struct log_output_t {
   }
 };
 
-struct default_log_output_t
-    : log_output_t<default_log_formatter_t, default_log_output_t> {
-  friend struct log_output_t<default_log_formatter_t, default_log_output_t>;
+struct default_log_output_t : log_output_t<default_log_output_t>,
+                              default_log_formatter_t {
+  friend struct log_output_t<default_log_output_t>;
 
  private:
   auto post_impl(const log_info_t& info) const -> bool {
