@@ -3,11 +3,10 @@
 #include <memory>
 #include <string>
 #include <functional>
+#include <optional>
 
 #include "datetime.h"
 #include "logger.h"
-
-
 
 namespace xiaxr {
 namespace detail {
@@ -27,10 +26,10 @@ auto log_level_to_string(log_level_t level) -> std::string {
 }
 }  // namespace
 struct log_info_t {
-  log_level_t level;
-  datetime_t  datetime;
-  std::string tag;
-  std::string message;
+  log_level_t               level;
+  std::optional<datetime_t> datetime;
+  std::string               tag;
+  std::string               message;
 };
 
 template <typename F>
@@ -47,9 +46,14 @@ struct default_log_formatter_t : log_formatter_t<default_log_formatter_t> {
 
  private:
   auto format_impl(const log_info_t& info) -> std::string {
-    serial_print_line("[format]");
-    return "[" + log_level_to_string(info.level) + "] (" +
-           info.datetime.to_string() + ") " + info.tag + ": " + info.message;
+    if (info.datetime.has_value()) {
+      return "[" + log_level_to_string(info.level) + "] (" +
+             info.datetime.value().to_string() + ") " + info.tag + ": " +
+             info.message;
+    }
+
+    return "[" + log_level_to_string(info.level) + "] " + info.tag + ": " +
+           info.message;
   }
 };
 
@@ -68,7 +72,6 @@ struct default_log_output_t : log_output_t<default_log_output_t>,
 
  private:
   auto post_impl(const log_info_t& info) -> bool {
-    serial_print_line("[post]");
     return serial_print_line(format(info)) > 0;
   }
 };
@@ -76,4 +79,3 @@ struct default_log_output_t : log_output_t<default_log_output_t>,
 }  // namespace detail
 using serial_logger_output_t = detail::default_log_output_t;
 }  // namespace xiaxr
-

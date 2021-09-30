@@ -1,5 +1,7 @@
 #include <string>
 #include <string_view>
+#include <optional>
+
 #include <stdio.h>
 
 #include <iot-core.h>
@@ -57,9 +59,19 @@ auto datetime_t::initialize(const std::string &server_1,
   return detail::initialize_datetime(server_1, server_2, server_3);
 }
 
+auto datetime_t::initialized() -> bool { return time_initialized; }
+
 auto datetime_t::now() -> datetime_t {
   if (!time_initialized) {
     initialize();
+  }
+
+  return detail::utc_now();
+}
+
+auto datetime_t::now_if_ready() -> std::optional<datetime_t> {
+  if (!time_initialized) {
+    return std::nullopt;
   }
 
   return detail::utc_now();
