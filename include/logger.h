@@ -44,8 +44,7 @@ auto _xiaxr_log(xiaxr::log_level_t level, const std::string& tag,
 template <typename... V>
 auto _xiaxr_log_v(xiaxr::log_level_t level, const std::string& tag,
                   const V&... values) {
-  std::string msg = (std::string(values)) + ...;
+  std::string msg = (std::string(values) + ...);
 
   _xiaxr_log(level, tag, msg);
 }
-
