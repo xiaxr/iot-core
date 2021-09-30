@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <optional>
 
 namespace xiaxr {
 enum class log_level_t {
@@ -25,12 +26,13 @@ struct logger_t {
   auto log(const log_level_t level, const std::string& tag,
            const std::string& message) -> void;
   auto log(const log_level_t level, const std::string& tag,
-           const std::string& message, const datetime_t& dt) -> void;
+           const std::string& message, const std::optional<datetime_t>& dt)
+      -> void;
 
  protected:
   virtual auto log_impl(const log_level_t level, const std::string& tag,
-                        const std::string& message, const datetime_t& dt)
-      -> void = 0;
+                        const std::string&               message,
+                        const std::optional<datetime_t>& dt) -> void = 0;
 
   log_level_t _log_level;
 };

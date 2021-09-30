@@ -14,7 +14,7 @@
 #define LOG_LEVEL_DEBUG 5
 #define LOG_LEVEL_TRACE 6
 
-#define LOGGING_LEVEL 6
+#define LOGGING_LEVEL 4
 
 #if defined(SERIAL_LOGGING)
 #define _LOG_LEVEL(level, tag, message)                                    \

@@ -1,6 +1,7 @@
 #include <string>
 #include <string_view>
 #include <memory>
+#include <optional>
 
 #include <iot-core.h>
 
@@ -17,7 +18,7 @@ namespace detail {
 struct serial_logger_t : logger_t {
  protected:
   virtual auto log_impl(const log_level_t level, const std::string& tag,
-                        const std::string& message, const datetime_t& dt)
+                        const std::string& message, const std::optional<datetime_t>& dt)
       -> void override {
     log_info_t info = {level, dt, tag, message};
     _out.post(info);
@@ -29,7 +30,7 @@ struct serial_logger_t : logger_t {
 
 static serial_logger_t default_logger;
 
-}  // namespace detail  
+}  // namespace detail
 
 logger_t::logger_t() : _log_level{default_log_level} {}
 logger_t::logger_t(log_level_t _level) : _log_level{_level} {}
@@ -45,21 +46,20 @@ auto logger_t::log(const log_level_t level, const std::string& message)
 
 auto logger_t::log(const log_level_t level, const std::string& tag,
                    const std::string& message) -> void {
-  log(level, tag, message, datetime_t::now());
+  log(level, tag, message, datetime_t::now_if_ready());
 }
 
 auto logger_t::log(const log_level_t level, const std::string& tag,
-                   const std::string& message, const datetime_t& dt) -> void {
-//   if ((int)level > (int)_log_level) {
-//     return;
-//   }
+                   const std::string&               message,
+                   const std::optional<datetime_t>& dt) -> void {
+  if ((int)level > (int)_log_level) {
+    return;
+  }
   log_impl(level, tag, message, dt);
 }
-
 }  // namespace xiaxr
 
 auto _xiaxr_log(xiaxr::log_level_t level, const std::string& tag,
                 const std::string& message) -> void {
-  xiaxr::detail::serial_print_line("xiaxr_log");
-  xiaxr::detail::default_logger.log(level, tag, message);  
+  xiaxr::detail::default_logger.log(level, tag, message);
 }
