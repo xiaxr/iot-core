@@ -4,6 +4,8 @@
 
 #include <iot-core.h>
 
+#include "datetime.h"
+
 namespace xiaxr {
 namespace {
 static bool                time_initialized = false;
@@ -12,6 +14,7 @@ constexpr std::string_view ntp_server_2{"time2.google.com"};
 constexpr std::string_view ntp_server_3{"time3.google.com"};
 }  // namespace
 
+// forward declarations for platform abstraction
 namespace detail {
 auto initialize_datetime(const std::string &server_1,
                          const std::string &server_2,
