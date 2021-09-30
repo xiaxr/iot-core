@@ -29,7 +29,7 @@ struct serial_logger_t : logger_t {
 
 static serial_logger_t default_logger;
 
-}  // namespace detail
+}  // namespace detail  
 
 logger_t::logger_t() : _log_level{default_log_level} {}
 logger_t::logger_t(log_level_t _level) : _log_level{_level} {}
