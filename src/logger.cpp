@@ -5,7 +5,7 @@
 #include <iot-core.h>
 
 #include "logger.h"
-#include "src/detail/logger_detail.h"
+#include "detail/logger_detail.h"
 
 namespace xiaxr {
 namespace {

@@ -3,6 +3,7 @@
 #include "datetime.h"
 #include "filesystem.h"
 #include "logger.h"
+#include "detail/logger_detail.h"
 
 #define SERIAL_LOGGING
 
@@ -19,7 +20,7 @@
 #if defined(SERIAL_LOGGING)
 
 namespace xiaxr {
-extern logger_t serial_logger;
+extern detail::serial_logger_t serial_logger;
 }  // namespace xiaxr
 
 #define _LOG_LEVEL(level, tag, message)                                    \
