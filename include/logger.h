@@ -34,5 +34,7 @@ struct logger_t {
 
   log_level_t _log_level;
 };
-
 }  // namespace xiaxr
+
+auto _xiaxr_log(xiaxr::log_level_t level, const std::string& tag,
+                const std::string& message) -> void;

@@ -26,6 +26,9 @@ struct serial_logger_t : logger_t {
  private:
   serial_logger_output_t _out;
 };
+
+static serial_logger_t default_logger;
+
 }  // namespace detail
 
 logger_t::logger_t() : _log_level{default_log_level} {}
@@ -53,8 +56,9 @@ auto logger_t::log(const log_level_t level, const std::string& tag,
   log_impl(level, tag, message, dt);
 }
 
-#if defined(SERIAL_LOGGING)
-detail::serial_logger_t serial_logger;
-#endif
-
 }  // namespace xiaxr
+
+auto _xiaxr_log(xiaxr::log_level_t level, const std::string& tag,
+                const std::string& message) -> void {
+  xiaxr::detail::default_logger.log(level, tag, message);
+}

@@ -3,7 +3,6 @@
 #include "datetime.h"
 #include "filesystem.h"
 #include "logger.h"
-#include "detail/logger_detail.h"
 
 #define SERIAL_LOGGING
 
@@ -18,25 +17,20 @@
 #define LOGGING_LEVEL LOG_LEVEL_INFO
 
 #if defined(SERIAL_LOGGING)
-
-namespace xiaxr {
-extern detail::serial_logger_t serial_logger;
-}  // namespace xiaxr
-
 #define _LOG_LEVEL(level, tag, message)                                    \
   do {                                                                     \
     if (level == LOG_LEVEL_FATAL) {                                        \
-      xiaxr::serial_logger.log(xiaxr::log_level_t::fatal, tag, message);   \
+      _xiaxr_log(xiaxr::log_level_t::fatal, tag, message);   \
     } else if (level == LOG_LEVEL_ERROR) {                                 \
-      xiaxr::serial_logger.log(xiaxr::log_level_t::error, tag, message);   \
+      _xiaxr_log(xiaxr::log_level_t::error, tag, message);   \
     } else if (level == LOG_LEVEL_WARNING) {                               \
-      xiaxr::serial_logger.log(xiaxr::log_level_t::warning, tag, message); \
+      _xiaxr_log(xiaxr::log_level_t::warning, tag, message); \
     } else if (level == LOG_LEVEL_INFO) {                                  \
-      xiaxr::serial_logger.log(xiaxr::log_level_t::info, tag, message);    \
+      _xiaxr_log(xiaxr::log_level_t::info, tag, message);    \
     } else if (level == LOG_LEVEL_DEBUG) {                                 \
-      xiaxr::serial_logger.log(xiaxr::log_level_t::debug, tag, message);   \
+      _xiaxr_log(xiaxr::log_level_t::debug, tag, message);   \
     } else if (level == LOG_LEVEL_TRACE) {                                 \
-      xiaxr::serial_logger.log(xiaxr::log_level_t::trace, tag, message);   \
+      _xiaxr_log(xiaxr::log_level_t::trace, tag, message);   \
     }                                                                      \
   } while (0)
 

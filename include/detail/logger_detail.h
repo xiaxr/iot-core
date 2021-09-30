@@ -7,6 +7,8 @@
 #include "datetime.h"
 #include "logger.h"
 
+
+
 namespace xiaxr {
 namespace detail {
 auto serial_print_line(const std::string&) -> size_t;
@@ -72,3 +74,4 @@ struct default_log_output_t : log_output_t<default_log_output_t>,
 }  // namespace detail
 using serial_logger_output_t = detail::default_log_output_t;
 }  // namespace xiaxr
+
