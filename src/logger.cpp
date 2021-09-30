@@ -60,5 +60,6 @@ auto logger_t::log(const log_level_t level, const std::string& tag,
 
 auto _xiaxr_log(xiaxr::log_level_t level, const std::string& tag,
                 const std::string& message) -> void {
-  xiaxr::detail::default_logger.log(level, tag, message);
+  xiaxr::detail::serial_print_line("xiaxr_log");
+  xiaxr::detail::default_logger.log(level, tag, message);  
 }
