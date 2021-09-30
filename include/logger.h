@@ -38,5 +38,15 @@ struct logger_t {
 };
 }  // namespace xiaxr
 
+template <typename... V>
+auto _xiaxr_log_v(xiaxr::log_level_t level, const std::string& tag,
+                  const V&... values) {
+  std::string msg;
+  for (const auto& v : values) {
+    msg += std::string(v);
+  }
+  return _xiaxr_log(level, tag, msg);
+}
+
 auto _xiaxr_log(xiaxr::log_level_t level, const std::string& tag,
                 const std::string& message) -> void;
