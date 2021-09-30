@@ -35,7 +35,7 @@ template <typename F>
 struct log_formatter_t {
   log_formatter_t() {}
 
-  auto format(const log_info_t& info) const -> std::string {
+  auto format(const log_info_t& info) -> std::string {
     return static_cast<F*>(this)->format_impl(info);
   }
 };
@@ -44,7 +44,7 @@ struct default_log_formatter_t : log_formatter_t<default_log_formatter_t> {
   friend struct log_formatter_t<default_log_formatter_t>;
 
  private:
-  auto format_impl(const log_info_t& info) const -> std::string {
+  auto format_impl(const log_info_t& info) -> std::string {
     return "[" + log_level_to_string(info.level) + "] (" +
            info.datetime.to_string() + ") " + info.tag + ": " + info.message;
   }
@@ -54,7 +54,7 @@ template <typename O>
 struct log_output_t {
   log_output_t() {}
 
-  auto post(const log_info_t& info) const -> bool {
+  auto post(const log_info_t& info) -> bool {
     return static_cast<O*>(this)->post_impl(info);
   }
 };
@@ -64,7 +64,7 @@ struct default_log_output_t : log_output_t<default_log_output_t>,
   friend struct log_output_t<default_log_output_t>;
 
  private:
-  auto post_impl(const log_info_t& info) const -> bool {
+  auto post_impl(const log_info_t& info) -> bool {
     return serial_print_line(format(info)) > 0;
   }
 };
