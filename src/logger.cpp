@@ -50,9 +50,9 @@ auto logger_t::log(const log_level_t level, const std::string& tag,
 
 auto logger_t::log(const log_level_t level, const std::string& tag,
                    const std::string& message, const datetime_t& dt) -> void {
-  if ((int)level > (int)_log_level) {
-    return;
-  }
+//   if ((int)level > (int)_log_level) {
+//     return;
+//   }
   log_impl(level, tag, message, dt);
 }
 

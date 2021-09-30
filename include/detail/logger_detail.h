@@ -47,6 +47,7 @@ struct default_log_formatter_t : log_formatter_t<default_log_formatter_t> {
 
  private:
   auto format_impl(const log_info_t& info) -> std::string {
+    serial_print_line("[format]");
     return "[" + log_level_to_string(info.level) + "] (" +
            info.datetime.to_string() + ") " + info.tag + ": " + info.message;
   }
@@ -67,6 +68,7 @@ struct default_log_output_t : log_output_t<default_log_output_t>,
 
  private:
   auto post_impl(const log_info_t& info) -> bool {
+    serial_print_line("[post]");
     return serial_print_line(format(info)) > 0;
   }
 };
