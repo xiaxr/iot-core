@@ -17,6 +17,9 @@ void initialize_serial() {
 }  // namespace
 
 auto serial_print_line(const std::string& value) -> size_t {
+  if (!serial_init) {
+    initialize_serial();
+  }
   return Serial.println(value.c_str());
 }
 }  // namespace detail
