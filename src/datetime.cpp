@@ -98,7 +98,7 @@ auto connect_ntp() -> bool {
     return false;
   }
 
-  LOG_INFO(TAG, "Current Time: ", datetime_t::now().to_string());
+  LOG_INFO(TAG, "Datetime initialized: ");
   return true;
 }
 
