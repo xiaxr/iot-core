@@ -23,7 +23,7 @@
       _xiaxr_log_v(xiaxr::log_level_t::fatal, tag, __VA_ARGS__);   \
     } else if (level == LOG_LEVEL_ERROR) {                         \
       _xiaxr_log_v(xiaxr::log_level_t::error, tag, __VA_ARGS__);   \
-    } else if (level == LOG_LEVEL_WARN) {                       \
+    } else if (level == LOG_LEVEL_WARN) {                          \
       _xiaxr_log_v(xiaxr::log_level_t::warning, tag, __VA_ARGS__); \
     } else if (level == LOG_LEVEL_INFO) {                          \
       _xiaxr_log_v(xiaxr::log_level_t::info, tag, __VA_ARGS__);    \
@@ -57,6 +57,12 @@
 namespace xiaxr {
 auto connect_wifi_sta(const std::string& ssid, const std::string& password)
     -> bool;
-auto is_internet_connected() ->bool;
-auto connect_ntp() ->bool;
+auto is_internet_connected() -> bool;
+auto connect_ntp() -> bool;
+auto initialize_filesystem() -> bool;
+auto read_file(const std::string& filename) -> std::string;
+auto write_file(const std::string& filename, const std::string& contents)
+    -> size_t;
+auto append_file(const std::string& filename, const std::string& contents)
+    -> size_t;
 }  // namespace xiaxr
