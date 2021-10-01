@@ -8,9 +8,10 @@
 namespace xiaxr {
 namespace detail {
 // ** datetime **
-auto initialize_datetime(const std::string& server_1,
-                         const std::string& server_2,
-                         const std::string& server_3) -> bool;
+auto initialize_datetime(const unsigned long timeout_ms,
+                         const std::string&  server_1,
+                         const std::string&  server_2,
+                         const std::string&  server_3) -> bool;
 auto utc_now() -> datetime_t;
 
 // ** wifi **
@@ -19,8 +20,7 @@ auto wifi_sta_connect(const unsigned long timeout_ms, const std::string& ssid,
                       const std::string& passphrase, int32_t channel,
                       const std::string& bssid, bool connect) -> bool;
 auto wifi_sta_connect(const unsigned long timeout_ms, const std::string& ssid,
-                      const std::string& passphrase)
-    -> bool;
+                      const std::string& passphrase) -> bool;
 auto wifi_sta_disconnect() -> bool;
 auto wifi_sta_is_connected() -> bool;
 auto wifi_sta_ip_address() -> std::string;

@@ -1,5 +1,7 @@
 #if defined ARDUINO_PLATFORM
 #include <Arduino.h>
+#include <PolledTimeout.h>
+#include <coredecls.h>
 
 #include <memory.h>
 #include <time.h>
@@ -11,24 +13,32 @@
 
 #include <iot-core.h>
 
-#define NTP_CONNECTION_TIMEOUT (8 * 3600 * 2)
-#define NTP_CONNECTION_DELAY 500
-
 namespace xiaxr {
 namespace detail {
+namespace {
+static bool time_set = false;
 
-auto initialize_datetime(const std::string &server_1,
-                         const std::string &server_2,
-                         const std::string &server_3) -> bool {
-  configTime(TZ_Etc_UTC, server_1.c_str(), server_2.c_str(), server_3.c_str());
+void time_is_set(bool from_sntp) { time_set = true; }
+}  // namespace
 
-  time_t _now = time(nullptr);
-  while (_now < NTP_CONNECTION_TIMEOUT) {    
-    LOG_INFO("datetime", "Attempting to connect to ntp servers.");
-    delay(NTP_CONNECTION_DELAY);
-    _now = time(nullptr);
+auto initialize_datetime(const unsigned long timeout_ms,
+                         const std::string&  server_1,
+                         const std::string&  server_2,
+                         const std::string&  server_3) -> bool {
+  if (time_set) {
+    [return true;]
   }
-  return true;
+
+  esp8266::polledTimeout::oneShotMs ntp_timeout(timeout_ms);
+  settimeofday_cb(time_is_set);
+  configTime(TZ_Etc_UTC, server_1.c_str(), server_2.c_str(), server_3.c_str());
+  yield();
+  ntp_timeout.reset();
+  while (!time_set && (!ntp_timeout)) {
+    yield();
+  }
+  
+  return time_set;
 }
 
 auto utc_now() -> datetime_t {
@@ -47,6 +57,4 @@ auto utc_now() -> datetime_t {
 }  // namespace detail
 }  // namespace xiaxr
 
-#undef NTP_CONNECTION_TIMEOUT
-#undef NTP_CONNECTION_DELAY
 #endif

@@ -13,6 +13,7 @@ namespace xiaxr {
 namespace {
 const char *               TAG              = "datetime";
 static bool                time_initialized = false;
+constexpr unsigned long    ntp_timeout_ms   = 30 * 1000;
 constexpr std::string_view ntp_server_1{"time1.google.com"};
 constexpr std::string_view ntp_server_2{"time2.google.com"};
 constexpr std::string_view ntp_server_3{"time3.google.com"};
@@ -50,7 +51,8 @@ auto datetime_t::initialize(const std::string &server_1,
     return true;
   }
 
-  time_initialized = detail::initialize_datetime(server_1, server_2, server_3);
+  time_initialized =
+      detail::initialize_datetime(ntp_timeout_ms, server_1, server_2, server_3);
   return time_initialized;
 }
 
