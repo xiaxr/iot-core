@@ -26,7 +26,7 @@ auto initialize_datetime(const unsigned long timeout_ms,
                          const std::string&  server_2,
                          const std::string&  server_3) -> bool {
   if (time_set) {
-    [return true;]
+    return true;
   }
 
   esp8266::polledTimeout::oneShotMs ntp_timeout(timeout_ms);
@@ -37,7 +37,7 @@ auto initialize_datetime(const unsigned long timeout_ms,
   while (!time_set && (!ntp_timeout)) {
     yield();
   }
-  
+
   return time_set;
 }
 
