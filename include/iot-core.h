@@ -6,6 +6,7 @@
 #include "datetime.h"
 #include "filesystem.h"
 #include "logger.h"
+#include "network.h"
 
 #define SERIAL_LOGGING
 
