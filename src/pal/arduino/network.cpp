@@ -1,5 +1,6 @@
 #if defined ARDUINO_PLATFORM
 #include <Arduino.h>
+#include <PolledTimeout.h>
 #include <ESP8266WiFi.h>
 
 #include <string>
@@ -20,6 +21,30 @@ auto convert_wifi_encryption(uint8_t value) -> wifi_encryption_t {
 }  // namespace
 namespace detail {
 auto wifi_set_sta_mode() -> void { WiFi.mode(WIFI_STA); }
+
+auto wifi_sta_connect(const unsigned long timeout_ms, const std::string& ssid,
+                      const std::string& passphrase, int32_t channel,
+                      const std::string& bssid, bool connect) -> bool {
+  esp8266::polledTimeout::oneShotMs wifi_timeout(timeout_ms);
+  WiFi.persistent(false);
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(ssid.c_str(), passphrase.empty()?nullptr,passphrase.c_str(), channel, bssid.empty()?nullptr:bssid.data(),true);
+
+  wifi_timeout.reset();
+  while (((!WiFi.localIP()) || (WiFi.status() != WL_CONNECTED)) &&
+         (!wifi_timeout)) {
+    yield();
+  }
+  if ((WiFi.status() == WL_CONNECTED) && WiFi.localIP()) {
+    return true;
+  }
+  return false;
+}
+
+auto wifi_sta_connect(const unsigned long timeout_ms, const std::string& ssid,
+                      const std::string& passphrase) -> bool {
+  return wifi_sta_connect(timeout_ms, ssid, passphrase, 0, {}, true);
+}
 
 auto wifi_sta_start(const char* ssid, const char* passphrase = NULL,
                     int32_t channel = 0, const uint8_t* bssid = NULL,

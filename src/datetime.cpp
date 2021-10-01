@@ -7,6 +7,7 @@
 #include <iot-core.h>
 
 #include "datetime.h"
+#include "detail/pal_detail.h"
 
 namespace xiaxr {
 namespace {
@@ -16,14 +17,6 @@ constexpr std::string_view ntp_server_1{"time1.google.com"};
 constexpr std::string_view ntp_server_2{"time2.google.com"};
 constexpr std::string_view ntp_server_3{"time3.google.com"};
 }  // namespace
-
-// forward declarations for platform abstraction
-namespace detail {
-auto initialize_datetime(const std::string &server_1,
-                         const std::string &server_2,
-                         const std::string &server_3) -> bool;
-auto utc_now() -> datetime_t;
-}  // namespace detail
 
 datetime_t::datetime_t()
     : hour{0}, minute{0}, second{0}, day{0}, month{0}, year{0} {}

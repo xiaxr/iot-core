@@ -8,9 +8,10 @@
 #include "datetime.h"
 #include "logger.h"
 
+#include "detail/pal_detail.h"
+
 namespace xiaxr {
 namespace detail {
-auto serial_print_line(const std::string&) -> size_t;
 namespace {
 auto log_level_to_string(log_level_t level) -> std::string {
   switch (level) {

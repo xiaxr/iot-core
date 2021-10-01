@@ -5,30 +5,17 @@
 #include <iot-core.h>
 
 #include "network.h"
+#include "detail/pal_detail.h"
 
 namespace {
-const char* TAG = "wifi";
-}
+const char*             TAG              = "wifi";
+constexpr unsigned long wifi_sta_timeout = 30 * 1000;
+}  // namespace
 
 namespace xiaxr {
-
 network_interface_t::network_interface_t() {}
 network_interface_t::~network_interface_t() {}
-
 namespace detail {
-auto wifi_set_sta_mode() -> void;
-auto wifi_sta_start(const char* ssid, const char* passphrase = NULL,
-                    int32_t channel = 0, const uint8_t* bssid = NULL,
-                    bool connect = true) -> bool;
-auto wifi_sta_disconnect() -> bool;
-auto wifi_sta_is_connected() -> bool;
-auto wifi_sta_ip_address() -> std::string;
-
-auto wifi_scan_networks() -> size_t;
-auto wifi_station_info(size_t index) -> wifi_station_t;
-
-auto sys_delay(unsigned long) -> void;
-
 struct wifi_station_interface_t::data_t {
   data_t() : ssid{}, ip_address{}, connected{false} {}
   std::string ssid;
@@ -58,23 +45,19 @@ auto wifi_station_interface_t::connect(
 
   LOG_INFO(TAG, "Connecting to ", s->ssid, ".");
 
-  if (!wifi_sta_start(s->ssid.c_str(),
-                      s->password.empty() ? nullptr : s->password.c_str())) {
-    LOG_ERROR(TAG, "Failed to start wifi sta connection.");
+  if (!detail::wifi_sta_connect(wifi_sta_timeout, s->ssid, s->password)) {
+    LOG_ERROR(TAG, "Failed to connect to wifi network.");
+    _data->connected  = false;
+    _data->ssid       = {};
+    _data->ip_address = {};
     return false;
   }
-
-  while (!wifi_sta_is_connected()) {
-    sys_delay(500);
-    LOG_INFO(TAG, "Attempting to connect to ", s->ssid, ".");
-  }
-
-  LOG_INFO(TAG, "Connected.");
 
   _data->connected  = true;
   _data->ssid       = s->ssid;
   _data->ip_address = wifi_sta_ip_address();
 
+  LOG_INFO(TAG, "Successfully connected to wifi network.");
   LOG_INFO(TAG, "IP address: ", _data->ip_address, ".");
 
   return true;
@@ -128,7 +111,7 @@ auto network_manager_t::scan_wifi_networks() -> std::vector<wifi_station_t> {
   LOG_INFO(TAG, "Network scan complete.");
 
   std::vector<wifi_station_t> output;
-  for (int i = 0; i < network_count; i++) {
+  for (size_t i = 0; i < network_count; i++) {
     output.push_back(detail::wifi_station_info(i));
   }
   return output;

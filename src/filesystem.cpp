@@ -3,22 +3,13 @@
 #include <iot-core.h>
 
 #include "filesystem.h"
+#include "detail/pal_detail.h"
 
 namespace {
 const char* TAG = "fs";
 }
 
 namespace xiaxr {
-namespace detail {
-auto lfs_initialize() -> bool;
-auto lfs_unmount() -> bool;
-auto lfs_read_file(const std::string& filename) -> std::string;
-auto lfs_write_file(const std::string& filename, const std::string& content)
-    -> size_t;
-auto lfs_append_file(const std::string& filename, const std::string& content)
-    -> size_t;
-}  // namespace detail
-
 struct file_t::data_t {
   data_t() {}
 };
