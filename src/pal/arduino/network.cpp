@@ -28,7 +28,8 @@ auto wifi_sta_connect(const unsigned long timeout_ms, const std::string& ssid,
   esp8266::polledTimeout::oneShotMs wifi_timeout(timeout_ms);
   WiFi.persistent(false);
   WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid.c_str(), passphrase.empty()?nullptr,passphrase.c_str(), channel, bssid.empty()?nullptr:bssid.data(),true);
+  WiFi.begin(ssid.c_str(), passphrase.empty() ? nullptr : passphrase.c_str(),
+             channel, bssid.empty() ? nullptr : bssid.data(), channel, connect);
 
   wifi_timeout.reset();
   while (((!WiFi.localIP()) || (WiFi.status() != WL_CONNECTED)) &&
