@@ -10,6 +10,10 @@ const char* TAG = "wifi";
 }
 
 namespace xiaxr {
+
+network_interface_t::network_interface_t() {}
+network_interface_t::~network_interface_t() {}
+
 namespace detail {
 auto wifi_sta_start(const char* ssid, const char* passphrase = NULL,
                     int32_t channel = 0, const uint8_t* bssid = NULL,
