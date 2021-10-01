@@ -1,3 +1,12 @@
 [submodule "third-party/lwip"]
 	path = third-party/lwip
 	url = git://git.savannah.gnu.org/lwip.git
+[submodule "third-party/ESP8266_RTOS_SDK"]
+	path = third-party/ESP8266_RTOS_SDK
+	url = https://github.com/espressif/ESP8266_RTOS_SDK.git
+[submodule "third-party/Arduino"]
+	path = third-party/Arduino
+	url = https://github.com/esp8266/Arduino.git
+[submodule "third-party/simba"]
+	path = third-party/simba
+	url = https://github.com/eerimoq/simba
