@@ -72,18 +72,17 @@ auto wifi_station_interface_t::connect(
 }
 
 auto wifi_station_interface_t::ip_address() const -> const std::string& {
-  if (is_connected) {
-    return _data->ip_address;
-  }
-  return {};
+  return _data->ip_address;
 }
 
 auto wifi_station_interface_t::is_connected() const -> bool {
   return _data->connected;
 }
 auto wifi_station_interface_t::disconnect() -> bool {
-  auto results     = wifi_sta_disconnect();
-  _data->connected = false;
+  auto results      = wifi_sta_disconnect();
+  _data->connected  = false;
+  _data->ssid       = {};
+  _data->ip_address = {};
   return results;
 }
 }  // namespace detail
