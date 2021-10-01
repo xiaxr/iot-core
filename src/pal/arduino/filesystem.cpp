@@ -9,7 +9,10 @@
 namespace xiaxr {
 namespace detail {
 auto lfs_initialize() -> bool { return FILESYSTEM.begin(); }
-auto lfs_unmount() -> bool { return FILESYSTEM.end(); }
+auto lfs_unmount() -> bool {
+  FILESYSTEM.end();
+  return true;
+}
 
 auto lfs_read_file(const std::string& filename) -> std::string {
   auto file = FILESYSTEM.open(filename.c_str(), "r");
