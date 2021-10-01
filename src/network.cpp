@@ -1,5 +1,6 @@
 #include <memory>
 #include <string>
+#include <vector>
 
 #include <iot-core.h>
 
@@ -15,12 +16,16 @@ network_interface_t::network_interface_t() {}
 network_interface_t::~network_interface_t() {}
 
 namespace detail {
+auto wifi_set_sta_mode() -> void;
 auto wifi_sta_start(const char* ssid, const char* passphrase = NULL,
                     int32_t channel = 0, const uint8_t* bssid = NULL,
                     bool connect = true) -> bool;
 auto wifi_sta_disconnect() -> bool;
 auto wifi_sta_is_connected() -> bool;
 auto wifi_sta_ip_address() -> std::string;
+
+auto wifi_scan_networks() -> size_t;
+auto wifi_station_info(size_t index) -> wifi_station_t;
 
 auto sys_delay(unsigned long) -> void;
 
@@ -109,6 +114,26 @@ auto network_manager_t::wifi_sta_connect(const std::string& ssid,
   return results;
 }
 
+auto network_manager_t::scan_wifi_networks() -> std::vector<wifi_station_t> {
+  detail::wifi_set_sta_mode();
+  if (_data->_wifi_sta_iface != nullptr) {
+    LOG_DEBUG(TAG, "Disconnecting wifi to scan networks.")
+    _data->_wifi_sta_iface->disconnect();
+    detail::sys_delay(100);
+    _data->_wifi_sta_iface = nullptr;
+  }
+
+  LOG_INFO(TAG, "Scanning networks.");
+  auto network_count = detail::wifi_scan_networks();
+  LOG_INFO(TAG, "Network scan complete.");
+
+  std::vector<wifi_station_t> output;
+  for (int i = 0; i < network_count; i++) {
+    output.push_back(detail::wifi_station_info(i));
+  }
+  return output;
+}
+
 auto network_manager_t::is_internet_connected() const -> bool {
   return _data->_wifi_sta_iface != nullptr &&
          _data->_wifi_sta_iface->is_connected();
@@ -125,6 +150,10 @@ auto connect_wifi_sta(const std::string& ssid, const std::string& password)
 
 auto is_internet_connected() -> bool {
   return detail::network_manager.is_internet_connected();
+}
+
+auto scan_wifi_networks() -> std::vector<wifi_station_t> {
+  return detail::network_manager.scan_wifi_networks();
 }
 
 }  // namespace xiaxr

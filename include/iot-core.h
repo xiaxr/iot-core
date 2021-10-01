@@ -1,5 +1,8 @@
 #pragma once
 
+#include <string>
+#include <vector>
+
 #include "datetime.h"
 #include "filesystem.h"
 #include "logger.h"
@@ -56,7 +59,10 @@
 
 namespace xiaxr {
 
-auto initialize_system(const std::string& ssid, const std::string& password)->bool;
+auto initialize_system(const std::string& ssid, const std::string& password)
+    -> bool;
+
+auto scan_wifi_networks() -> std::vector<wifi_station_t>;
 
 auto connect_wifi_sta(const std::string& ssid, const std::string& password)
     -> bool;
