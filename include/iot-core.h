@@ -55,6 +55,9 @@
 #endif
 
 namespace xiaxr {
+
+auto initialize_system(const std::string& ssid, const std::string& password)->bool;
+
 auto connect_wifi_sta(const std::string& ssid, const std::string& password)
     -> bool;
 auto is_internet_connected() -> bool;
