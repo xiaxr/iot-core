@@ -54,4 +54,8 @@
 #define LOG_TRACE(tag, ...)
 #endif
 
-namespace xiaxr {}  // namespace xiaxr
+namespace xiaxr {
+auto connect_wifi_sta(const std::string& ssid, const std::string& password)
+    -> bool;
+
+}  // namespace xiaxr
