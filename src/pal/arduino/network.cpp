@@ -15,7 +15,7 @@ auto wifi_sta_start(const char* ssid, const char* passphrase = NULL,
 auto wifi_sta_disconnect() -> bool { return WiFi.disconnect(); }
 auto wifi_sta_is_connected() -> bool { return WiFi.isConnected(); }
 auto wifi_sta_ip_address() -> std::string {
-  return std::string(WiFi.localIP().toString());
+  return std::string(WiFi.localIP().toString().c_str());
 }
 }  // namespace detail
 }  // namespace xiaxr
