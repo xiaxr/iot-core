@@ -9,6 +9,8 @@
 
 #include "datetime.h"
 
+#include <iot-core.h>
+
 #define NTP_CONNECTION_TIMEOUT (8 * 3600 * 2)
 #define NTP_CONNECTION_DELAY 500
 
@@ -21,7 +23,8 @@ auto initialize_datetime(const std::string &server_1,
   configTime(TZ_Etc_UTC, server_1.c_str(), server_2.c_str(), server_3.c_str());
 
   time_t _now = time(nullptr);
-  while (_now < NTP_CONNECTION_TIMEOUT) {
+  while (_now < NTP_CONNECTION_TIMEOUT) {    
+    LOG_INFO("datetime", "Attempting to connect to ntp servers.");
     delay(NTP_CONNECTION_DELAY);
     _now = time(nullptr);
   }

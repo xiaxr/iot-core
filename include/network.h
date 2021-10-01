@@ -49,6 +49,8 @@ struct network_manager_t {
   auto wifi_sta_connect(const std::string& ssid, const std::string& password)
       -> bool;
 
+  auto is_internet_connected() const -> bool;
+
  private:
   struct data_t;
   std::unique_ptr<data_t> _data;

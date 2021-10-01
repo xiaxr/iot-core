@@ -10,6 +10,7 @@
 
 namespace xiaxr {
 namespace {
+const char *               TAG              = "datetime";
 static bool                time_initialized = false;
 constexpr std::string_view ntp_server_1{"time1.google.com"};
 constexpr std::string_view ntp_server_2{"time2.google.com"};
@@ -75,6 +76,29 @@ auto datetime_t::now_if_ready() -> std::optional<datetime_t> {
   }
 
   return detail::utc_now();
+}
+
+auto connect_ntp() -> bool {
+  if (time_initialized) {
+    LOG_WARN(TAG, "Datetime has already been initialized.")
+    return true;
+  }
+
+  if (!is_internet_connected()) {
+    LOG_WARN(TAG,
+             "Cannot connect to NTP servers without an internet connection.");
+    return false;
+  }
+
+  LOG_INFO(TAG, "Initalizing datetime.");
+
+  if (!datetime_t::initialize()) {
+    LOG_ERROR(TAG, "Could not initialize datetime.")
+    return false;
+  }
+
+  LOG_INFO(TAG, "Current Time: ", datetime_t::now().to_string());
+  return true;
 }
 
 }  // namespace xiaxr

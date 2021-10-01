@@ -9,7 +9,7 @@
 #define LOG_LEVEL_NONE 0
 #define LOG_LEVEL_FATAL 1
 #define LOG_LEVEL_ERROR 2
-#define LOG_LEVEL_WARNING 3
+#define LOG_LEVEL_WARN 3
 #define LOG_LEVEL_INFO 4
 #define LOG_LEVEL_DEBUG 5
 #define LOG_LEVEL_TRACE 6
@@ -23,7 +23,7 @@
       _xiaxr_log_v(xiaxr::log_level_t::fatal, tag, __VA_ARGS__);   \
     } else if (level == LOG_LEVEL_ERROR) {                         \
       _xiaxr_log_v(xiaxr::log_level_t::error, tag, __VA_ARGS__);   \
-    } else if (level == LOG_LEVEL_WARNING) {                       \
+    } else if (level == LOG_LEVEL_WARN) {                       \
       _xiaxr_log_v(xiaxr::log_level_t::warning, tag, __VA_ARGS__); \
     } else if (level == LOG_LEVEL_INFO) {                          \
       _xiaxr_log_v(xiaxr::log_level_t::info, tag, __VA_ARGS__);    \
@@ -57,5 +57,6 @@
 namespace xiaxr {
 auto connect_wifi_sta(const std::string& ssid, const std::string& password)
     -> bool;
-
+auto is_internet_connected() ->bool;
+auto connect_ntp() ->bool;
 }  // namespace xiaxr

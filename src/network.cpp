@@ -109,11 +109,22 @@ auto network_manager_t::wifi_sta_connect(const std::string& ssid,
   return results;
 }
 
+auto network_manager_t::is_internet_connected() const -> bool {
+  return _data->_wifi_sta_iface != nullptr &&
+         _data->_wifi_sta_iface->is_connected();
+}
+
 namespace detail {
 network_manager_t network_manager;
 }
+
 auto connect_wifi_sta(const std::string& ssid, const std::string& password)
     -> bool {
   return detail::network_manager.wifi_sta_connect(ssid, password);
 }
+
+auto is_internet_connected() -> bool {
+  return detail::network_manager.is_internet_connected();
+}
+
 }  // namespace xiaxr
