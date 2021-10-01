@@ -1,5 +1,5 @@
 #include <string>
-#include <string_view>
+
 #include <memory>
 #include <optional>
 
@@ -10,16 +10,16 @@
 
 namespace xiaxr {
 namespace {
-constexpr log_level_t      default_log_level = log_level_t::info;
-constexpr std::string_view default_log_tag{"app"};
+static const char*    default_tag       = "app";
+constexpr log_level_t default_log_level = log_level_t::info;
 }  // namespace
 
 namespace detail {
 struct serial_logger_t : logger_t {
  protected:
   virtual auto log_impl(const log_level_t level, const std::string& tag,
-                        const std::string& message, const std::optional<datetime_t>& dt)
-      -> void override {
+                        const std::string&               message,
+                        const std::optional<datetime_t>& dt) -> void override {
     log_info_t info = {level, dt, tag, message};
     _out.post(info);
   }
@@ -41,7 +41,7 @@ auto logger_t::log(const std::string& message) -> void {
 
 auto logger_t::log(const log_level_t level, const std::string& message)
     -> void {
-  log(level, default_log_tag.data(), message);
+  log(level, default_tag, message);
 }
 
 auto logger_t::log(const log_level_t level, const std::string& tag,

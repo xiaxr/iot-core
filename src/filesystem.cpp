@@ -6,7 +6,7 @@
 #include "detail/pal_detail.h"
 
 namespace {
-const char* TAG = "fs";
+static const char* TAG = "fs";
 }
 
 namespace xiaxr {

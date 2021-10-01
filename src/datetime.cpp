@@ -11,7 +11,7 @@
 
 namespace xiaxr {
 namespace {
-const char *               TAG              = "datetime";
+static const char *        TAG              = "datetime";
 static bool                time_initialized = false;
 constexpr unsigned long    ntp_timeout_ms   = 30 * 1000;
 constexpr std::string_view ntp_server_1{"time1.google.com"};
